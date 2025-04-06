@@ -1,66 +1,79 @@
+// Conectarse a Twitch usando tmi.js
 const client = new tmi.Client({
-  channels: ['DVIVNV']
+  channels: ['DVIVNV'] // Tu canal
 });
 
 client.connect();
 
+// Elemento donde se insertan los mensajes
+const chatContainer = document.getElementById('chat-container');
+
 client.on('message', (channel, tags, message, self) => {
   if (self) return;
 
-  const chat = document.getElementById('chat');
-  if (!chat) return;
+  const isMod = tags.mod || tags['user-type'] === 'mod';
+  const isVip = tags.badges && tags.badges.vip;
+  const isSub = tags.subscriber;
 
-  const messageEl = document.createElement('div');
-  messageEl.classList.add('chat-message');
+  // Crear contenedor del mensaje
+  const messageDiv = document.createElement('div');
+  messageDiv.classList.add('chat-message');
 
+  // Crear span del usuario
   const userSpan = document.createElement('span');
   userSpan.classList.add('chat-user');
 
-  const borderSpan = document.createElement('span');
-  borderSpan.classList.add('name-label-border');
+  const nameBorderSpan = document.createElement('span');
+  nameBorderSpan.classList.add('name-label-border');
 
-  const nameSpan = document.createElement('span');
-  nameSpan.classList.add('name-label');
+  const nameLabelSpan = document.createElement('span');
+  nameLabelSpan.classList.add('name-label');
 
-  const badges = tags.badges || {};
-  if (badges.moderator) {
+  // Insignias
+  if (isMod) {
     const badge = document.createElement('span');
     badge.classList.add('chat-badge');
-    badge.innerText = 'MOD';
-    nameSpan.appendChild(badge);
-  } else if (badges.vip) {
-    const badge = document.createElement('span');
-    badge.classList.add('chat-badge');
-    badge.innerText = 'VIP';
-    nameSpan.appendChild(badge);
-  } else if (badges.subscriber) {
-    const badge = document.createElement('span');
-    badge.classList.add('chat-badge');
-    badge.innerText = 'SUB';
-    nameSpan.appendChild(badge);
+    badge.textContent = 'MOD';
+    nameLabelSpan.appendChild(badge);
   }
 
-  const nameText = document.createTextNode(` ${tags['display-name']}:`);
-  nameSpan.appendChild(nameText);
+  if (isVip) {
+    const badge = document.createElement('span');
+    badge.classList.add('chat-badge');
+    badge.textContent = 'VIP';
+    nameLabelSpan.appendChild(badge);
+  }
 
-  borderSpan.appendChild(nameSpan);
-  userSpan.appendChild(borderSpan);
+  if (isSub) {
+    const badge = document.createElement('span');
+    badge.classList.add('chat-badge');
+    badge.textContent = 'SUB';
+    nameLabelSpan.appendChild(badge);
+  }
 
-  const textSpan = document.createElement('span');
-  textSpan.classList.add('chat-text');
-  textSpan.innerText = message;
+  // Nombre de usuario
+  nameLabelSpan.appendChild(document.createTextNode(` ${tags['display-name']}:`));
+  nameBorderSpan.appendChild(nameLabelSpan);
+  userSpan.appendChild(nameBorderSpan);
 
-  messageEl.appendChild(userSpan);
-  messageEl.appendChild(textSpan);
-  chat.appendChild(messageEl);
+  // Texto del mensaje
+  const messageText = document.createElement('span');
+  messageText.classList.add('chat-text');
+  messageText.textContent = message;
 
-  chat.scrollTop = chat.scrollHeight;
+  // Agregar todo al contenedor principal
+  messageDiv.appendChild(userSpan);
+  messageDiv.appendChild(messageText);
+  chatContainer.appendChild(messageDiv);
 
-  messageEl.classList.add('fade-in');
+  // Animación de entrada
   setTimeout(() => {
-    messageEl.classList.add('fade-out');
-    setTimeout(() => {
-      messageEl.remove();
-    }, 1000);
-  }, 10000);
+    messageDiv.classList.add('show');
+  }, 50);
+
+  // Borrar el mensaje después de 20 segundos
+  setTimeout(() => {
+    messageDiv.classList.remove('show');
+    setTimeout(() => messageDiv.remove(), 1000);
+  }, 20000);
 });
