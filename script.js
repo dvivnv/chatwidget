@@ -5,7 +5,7 @@ const client = new tmi.Client({
 client.connect();
 
 client.on('message', (channel, tags, message, self) => {
-  if(self) return;
+  if (self) return;
 
   const chat = document.getElementById('chat');
   if (!chat) return;
@@ -22,7 +22,7 @@ client.on('message', (channel, tags, message, self) => {
   const nameSpan = document.createElement('span');
   nameSpan.classList.add('name-label');
 
-  // Insignias (MOD, VIP, suscriptoras)
+  // Crear insignias
   const badges = tags.badges || {};
   if (badges.moderator) {
     const badge = document.createElement('span');
@@ -41,7 +41,11 @@ client.on('message', (channel, tags, message, self) => {
     nameSpan.appendChild(badge);
   }
 
-  nameSpan.innerHTML += ` ${tags['display-name']}:`;
+  // Nombre del usuario
+  const nameText = document.createTextNode(` ${tags['display-name']}:`);
+  nameSpan.appendChild(nameText);
+
+  // Armar jerarquía
   borderSpan.appendChild(nameSpan);
   userSpan.appendChild(borderSpan);
 
@@ -55,7 +59,7 @@ client.on('message', (channel, tags, message, self) => {
 
   chat.scrollTop = chat.scrollHeight;
 
-  // Animación y eliminación
+  // Animaciones
   messageEl.classList.add('fade-in');
   setTimeout(() => {
     messageEl.classList.add('fade-out');
