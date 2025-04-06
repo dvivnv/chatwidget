@@ -1,63 +1,66 @@
 const client = new tmi.Client({
-    channels: ['DVIVNV']
+  channels: ['DVIVNV']
 });
 
 client.connect();
 
 client.on('message', (channel, tags, message, self) => {
-    if (self) return;
+  if(self) return;
 
-    const chatContainer = document.getElementById('chat');
-    const messageEl = document.createElement('div');
-    messageEl.classList.add('chat-message');
+  const chat = document.getElementById('chat');
+  if (!chat) return;
 
-    const chatUser = document.createElement('span');
-    chatUser.classList.add('chat-user');
+  const messageEl = document.createElement('div');
+  messageEl.classList.add('chat-message');
 
-    const nameBorder = document.createElement('span');
-    nameBorder.classList.add('name-label-border');
+  const userSpan = document.createElement('span');
+  userSpan.classList.add('chat-user');
 
-    const nameLabel = document.createElement('span');
-    nameLabel.classList.add('name-label');
+  const borderSpan = document.createElement('span');
+  borderSpan.classList.add('name-label-border');
 
-    // Agregamos insignias según el tipo
-    if (tags.badges) {
-        const badge = document.createElement('span');
-        badge.classList.add('chat-badge');
+  const nameSpan = document.createElement('span');
+  nameSpan.classList.add('name-label');
 
-        if (tags.badges.broadcaster) {
-            badge.textContent = 'Streamer';
-        } else if (tags.badges.vip) {
-            badge.textContent = 'VIP';
-        } else if (tags.mod) {
-            badge.textContent = 'MOD';
-        } else if (tags.badges.subscriber) {
-            badge.textContent = 'Sub';
-        }
+  // Insignias (MOD, VIP, suscriptoras)
+  const badges = tags.badges || {};
+  if (badges.moderator) {
+    const badge = document.createElement('span');
+    badge.classList.add('chat-badge');
+    badge.innerText = 'MOD';
+    nameSpan.appendChild(badge);
+  } else if (badges.vip) {
+    const badge = document.createElement('span');
+    badge.classList.add('chat-badge');
+    badge.innerText = 'VIP';
+    nameSpan.appendChild(badge);
+  } else if (badges.subscriber) {
+    const badge = document.createElement('span');
+    badge.classList.add('chat-badge');
+    badge.innerText = 'SUB';
+    nameSpan.appendChild(badge);
+  }
 
-        nameLabel.appendChild(badge);
-    }
+  nameSpan.innerHTML += ` ${tags['display-name']}:`;
+  borderSpan.appendChild(nameSpan);
+  userSpan.appendChild(borderSpan);
 
-    const usernameText = document.createTextNode(` ${tags['display-name']} `);
-    nameLabel.appendChild(usernameText);
+  const textSpan = document.createElement('span');
+  textSpan.classList.add('chat-text');
+  textSpan.innerText = message;
 
-    const messageText = document.createTextNode(`: ${message}`);
+  messageEl.appendChild(userSpan);
+  messageEl.appendChild(textSpan);
+  chat.appendChild(messageEl);
 
-    nameBorder.appendChild(nameLabel);
-    chatUser.appendChild(nameBorder);
-    messageEl.appendChild(chatUser);
-    messageEl.appendChild(messageText);
+  chat.scrollTop = chat.scrollHeight;
 
-    chatContainer.appendChild(messageEl);
-
-    // Animación de entrada
-    messageEl.classList.add('fade-in');
-
-    // Borrado automático después de 30 segundos
+  // Animación y eliminación
+  messageEl.classList.add('fade-in');
+  setTimeout(() => {
+    messageEl.classList.add('fade-out');
     setTimeout(() => {
-        messageEl.classList.add('fade-out');
-        setTimeout(() => {
-            chatContainer.removeChild(messageEl);
-        }, 1000);
-    }, 30000);
+      messageEl.remove();
+    }, 1000);
+  }, 10000);
 });
