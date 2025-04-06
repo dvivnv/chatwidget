@@ -7,10 +7,9 @@ client.connect();
 client.on('message', (channel, tags, message, self) => {
     if (self) return;
 
-    const chatMessages = document.getElementById('chat-messages');
-
-    const chatMessage = document.createElement('div');
-    chatMessage.classList.add('chat-message');
+    const chatContainer = document.getElementById('chat');
+    const messageEl = document.createElement('div');
+    messageEl.classList.add('chat-message');
 
     const chatUser = document.createElement('span');
     chatUser.classList.add('chat-user');
@@ -21,23 +20,44 @@ client.on('message', (channel, tags, message, self) => {
     const nameLabel = document.createElement('span');
     nameLabel.classList.add('name-label');
 
-    // Ejemplo: agregar insignia si es moderador
-    if (tags.mod) {
+    // Agregamos insignias según el tipo
+    if (tags.badges) {
         const badge = document.createElement('span');
         badge.classList.add('chat-badge');
-        badge.textContent = 'MOD';
+
+        if (tags.badges.broadcaster) {
+            badge.textContent = 'Streamer';
+        } else if (tags.badges.vip) {
+            badge.textContent = 'VIP';
+        } else if (tags.mod) {
+            badge.textContent = 'MOD';
+        } else if (tags.badges.subscriber) {
+            badge.textContent = 'Sub';
+        }
+
         nameLabel.appendChild(badge);
     }
 
-    nameLabel.appendChild(document.createTextNode(` ${tags['display-name']}:`));
+    const usernameText = document.createTextNode(` ${tags['display-name']} `);
+    nameLabel.appendChild(usernameText);
+
+    const messageText = document.createTextNode(`: ${message}`);
+
     nameBorder.appendChild(nameLabel);
     chatUser.appendChild(nameBorder);
+    messageEl.appendChild(chatUser);
+    messageEl.appendChild(messageText);
 
-    const chatText = document.createElement('span');
-    chatText.classList.add('chat-text');
-    chatText.textContent = message;
+    chatContainer.appendChild(messageEl);
 
-    chatMessage.appendChild(chatUser);
-    chatMessage.appendChild(chatText);
-    chatMessages.appendChild(chatMessage);
+    // Animación de entrada
+    messageEl.classList.add('fade-in');
+
+    // Borrado automático después de 30 segundos
+    setTimeout(() => {
+        messageEl.classList.add('fade-out');
+        setTimeout(() => {
+            chatContainer.removeChild(messageEl);
+        }, 1000);
+    }, 30000);
 });
