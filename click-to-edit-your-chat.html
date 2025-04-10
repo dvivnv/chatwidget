@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Configurador de Chat DVIVNV</title>
+  <title>Haz clic aquí para personalizar tu chat 🪄</title>
   <style>
     body {
       font-family: sans-serif;
@@ -45,14 +45,39 @@
   <script>
     const root = document.documentElement;
 
+    // Cargar valores guardados
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedColor = localStorage.getItem('textColor');
+      const savedFont = localStorage.getItem('fontName');
+      const savedSize = localStorage.getItem('fontSize');
+
+      if (savedColor) {
+        root.style.setProperty('--text-color', savedColor);
+        document.getElementById('colorName').value = savedColor;
+      }
+
+      if (savedFont) {
+        root.style.setProperty('--font-secondary', savedFont);
+        document.getElementById('fontName').value = savedFont;
+      }
+
+      if (savedSize) {
+        root.style.setProperty('--font-size-name', savedSize);
+        document.getElementById('fontSize').value = parseInt(savedSize);
+        document.getElementById('fontSizeValue').textContent = savedSize;
+      }
+    });
+
     // Cambiar color
     document.getElementById('colorName').addEventListener('input', e => {
       root.style.setProperty('--text-color', e.target.value);
+      localStorage.setItem('textColor', e.target.value);
     });
 
     // Cambiar fuente
     document.getElementById('fontName').addEventListener('change', e => {
       root.style.setProperty('--font-secondary', e.target.value);
+      localStorage.setItem('fontName', e.target.value);
     });
 
     // Cambiar tamaño de fuente
@@ -63,6 +88,7 @@
       const size = e.target.value + 'px';
       root.style.setProperty('--font-size-name', size);
       fontSizeValue.textContent = size;
+      localStorage.setItem('fontSize', size);
     });
   </script>
 </body>
