@@ -4,6 +4,10 @@ body {
 }
 
 
+.chat-message {
+    margin-bottom:30px;
+}
+
 .name-label {
 font-family: "Borel", cursive;
 color: #f07b7b;
