@@ -1,5 +1,5 @@
 const client = new tmi.Client({
-  channels: ['DVIVNV']
+  channels: ['DVIVNV'] // asegurate que esté correcto
 });
 
 client.connect();
@@ -14,56 +14,47 @@ client.on('message', (channel, userstate, message, self) => {
   const isVip = userstate.badges && userstate.badges.vip;
   const isSub = userstate.subscriber;
 
+  // Crear contenedor del mensaje
   const chatMessage = document.createElement('div');
   chatMessage.classList.add('chat-message');
 
+  // Crear estructura del nombre
   const chatUser = document.createElement('span');
   chatUser.classList.add('chat-user');
 
-  const nameLabelBorder = document.createElement('span');
-  nameLabelBorder.classList.add('name-label-border');
+  const nameBorder = document.createElement('span');
+  nameBorder.classList.add('name-label-border');
 
   const nameLabel = document.createElement('span');
   nameLabel.classList.add('name-label');
 
-  // Badge si tiene
-  if (isMod) {
+  // Badge si hay
+  if (isMod || isVip || isSub) {
     const badge = document.createElement('span');
     badge.classList.add('chat-badge');
-    badge.textContent = 'MOD';
-    nameLabel.appendChild(badge);
-  } else if (isVip) {
-    const badge = document.createElement('span');
-    badge.classList.add('chat-badge');
-    badge.textContent = 'VIP';
-    nameLabel.appendChild(badge);
-  } else if (isSub) {
-    const badge = document.createElement('span');
-    badge.classList.add('chat-badge');
-    badge.textContent = 'SUB';
+    if (isMod) badge.textContent = 'MOD';
+    else if (isVip) badge.textContent = 'VIP';
+    else if (isSub) badge.textContent = 'SUB';
     nameLabel.appendChild(badge);
   }
 
   // Nombre de usuario
-  const nameText = document.createTextNode(` ${username}:`);
-  nameLabel.appendChild(nameText);
+  nameLabel.appendChild(document.createTextNode(` ${username}:`));
 
-  nameLabelBorder.appendChild(nameLabel);
-  chatUser.appendChild(nameLabelBorder);
+  // Unir estructura
+  nameBorder.appendChild(nameLabel);
+  chatUser.appendChild(nameBorder);
   chatMessage.appendChild(chatUser);
 
-  // Texto del mensaje
-  const messageText = document.createTextNode(` ${message}`);
-  chatMessage.appendChild(messageText);
+  // Contenido del mensaje
+  const chatText = document.createElement('span');
+  chatText.classList.add('chat-text');
+  chatText.textContent = message;
 
+  chatMessage.appendChild(chatText);
   chat.appendChild(chatMessage);
 
-  // Animación de entrada
-  setTimeout(() => {
-    chatMessage.classList.add('show');
-  }, 10);
-
-  // Desaparición automática
+  // Borrar después de 15 segundos
   setTimeout(() => {
     chatMessage.classList.add('fade-out');
     setTimeout(() => chatMessage.remove(), 1000);
