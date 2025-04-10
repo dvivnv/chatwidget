@@ -54,9 +54,5 @@ client.on('message', (channel, userstate, message, self) => {
   chatMessage.appendChild(chatText);
   chat.appendChild(chatMessage);
 
-  // Borrar después de 15 segundos
-  setTimeout(() => {
-    chatMessage.classList.add('fade-out');
-    setTimeout(() => chatMessage.remove(), 1000);
-  }, 15000);
+
 });
