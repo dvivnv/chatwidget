@@ -1,3 +1,16 @@
+// Aplicar estilos guardados desde el editor
+const root = document.documentElement;
+
+const savedColor = localStorage.getItem('textColor');
+const savedFont = localStorage.getItem('fontName');
+const savedSize = localStorage.getItem('fontSize');
+
+if (savedColor) root.style.setProperty('--text-color', savedColor);
+if (savedFont)  root.style.setProperty('--font-secondary', savedFont);
+if (savedSize)  root.style.setProperty('--font-size-name', savedSize);
+
+
+
 const client = new tmi.Client({
   channels: ['DVIVNV'] // asegurate que esté correcto
 });
