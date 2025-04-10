@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Configurador de Chat DVIVNV</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background: #fafafa;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input, select {
+      margin-top: 5px;
+      padding: 5px;
+      font-size: 1em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Configurador de Estilo del Chat ✨</h1>
+
+  <label for="colorName">🎨 Color del nombre:</label>
+  <input type="color" id="colorName" value="#f07b7b">
+
+  <label for="fontName">🔠 Fuente del nombre:</label>
+  <select id="fontName">
+    <option value="'Borel', cursive">Borel</option>
+    <option value="'Quicksand', sans-serif">Quicksand</option>
+    <option value="'Comic Sans MS', cursive">Comic Sans</option>
+    <option value="'Arial', sans-serif">Arial</option>
+  </select>
+
+  <label for="fontSize">🔢 Tamaño del texto:</label>
+  <input type="range" id="fontSize" min="12" max="36" value="18">
+  <span id="fontSizeValue">18px</span>
+
+  <script>
+    const root = document.documentElement;
+
+    // Cambiar color
+    document.getElementById('colorName').addEventListener('input', e => {
+      root.style.setProperty('--text-color', e.target.value);
+    });
+
+    // Cambiar fuente
+    document.getElementById('fontName').addEventListener('change', e => {
+      root.style.setProperty('--font-secondary', e.target.value);
+    });
+
+    // Cambiar tamaño de fuente
+    const fontSizeRange = document.getElementById('fontSize');
+    const fontSizeValue = document.getElementById('fontSizeValue');
+
+    fontSizeRange.addEventListener('input', e => {
+      const size = e.target.value + 'px';
+      root.style.setProperty('--font-size-name', size);
+      fontSizeValue.textContent = size;
+    });
+  </script>
+</body>
+</html>
