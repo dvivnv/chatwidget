@@ -1,52 +1,52 @@
+:root {
+    --text-color: #f07b7b;
+    --font-secondary: "Borel", cursive;
+    --font-primary: "Quicksand", sans-serif;
+    --font-size-name: 18px;
+}
+
 body {
     margin: 10px;
     padding: 2%;
 }
 
-
 .chat-message {
-    margin-bottom:30px;
+    margin-bottom: 30px;
 }
 
 .name-label {
-font-family: "Borel", cursive;
-color: #f07b7b;
---s: 10px;
-padding-inline: .9em calc(var(--s) + .5em);
-padding-top: 10px; 
-clip-path: polygon(0 0, 100% 0, calc(100% - var(--s)) 50%, 100% 100%, 0 100%);
-background: #ffe2e2;
-width: fit-content;
+    font-family: var(--font-secondary);
+    color: var(--text-color);
+    --s: 10px;
+    padding-inline: .9em calc(var(--s) + .5em);
+    padding-top: 10px;
+    clip-path: polygon(0 0, 100% 0, calc(100% - var(--s)) 50%, 100% 100%, 0 100%);
+    background: #ffe2e2;
+    width: fit-content;
+    font-size: var(--font-size-name);
 }
 
-
-
-.name-label-border  {
-font-family: "Borel", cursive;
---s: 10px;
-padding-inline: 2px;
-padding-top: 12px; 
-padding-bottom: 2px;
-clip-path: polygon(0 0, 100% 0, calc(100% - var(--s)) 50%, 100% 100%, 0 100%);
-background: #fd9494;
-width: fit-content;
-    }
-
-    
+.name-label-border {
+    font-family: var(--font-secondary);
+    --s: 10px;
+    padding-inline: 2px;
+    padding-top: 12px;
+    padding-bottom: 2px;
+    clip-path: polygon(0 0, 100% 0, calc(100% - var(--s)) 50%, 100% 100%, 0 100%);
+    background: #fd9494;
+    width: fit-content;
+}
 
 .chat-user {
- margin: 5px;
- margin-bottom: 10px;
+    margin: 5px;
+    margin-bottom: 10px;
 }
 
 .chat-text {
-    color: #f07b7b;
+    color: var(--text-color);
     display: block;
     margin-left: 30px;
     margin-top: 5px;
-    font-family: "Quicksand", sans-serif;
+    font-family: var(--font-primary);
     font-weight: 500;
 }
-
-
-    
