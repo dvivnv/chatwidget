@@ -10,7 +10,6 @@ color: #f07b7b;
 --s: 10px;
 padding-inline: .9em calc(var(--s) + .5em);
 padding-top: 10px; 
-padding-bottom: px;
 clip-path: polygon(0 0, 100% 0, calc(100% - var(--s)) 50%, 100% 100%, 0 100%);
 background: #ffe2e2;
 width: fit-content;
