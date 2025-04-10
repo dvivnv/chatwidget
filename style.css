@@ -1,8 +1,8 @@
 :root {
-    --text-color: #f07b7b;
-    --font-secondary: "Borel", cursive;
-    --font-primary: "Quicksand", sans-serif;
-    --font-size-name: 18px;
+  --text-color: #f07b7b;
+  --font-secondary: "Borel", cursive;
+  --font-primary: "Quicksand", sans-serif;
+  --font-size-name: 18px;
 }
 
 body {
@@ -10,24 +10,20 @@ body {
     padding: 2%;
 }
 
-.chat-message {
-    margin-bottom: 30px;
-}
-
 .name-label {
-    font-family: var(--font-secondary);
-    color: var(--text-color);
+    font-family: var(--font-secondary, "Borel", cursive);
+    color: var(--text-color, #f07b7b);
     --s: 10px;
     padding-inline: .9em calc(var(--s) + .5em);
     padding-top: 10px;
     clip-path: polygon(0 0, 100% 0, calc(100% - var(--s)) 50%, 100% 100%, 0 100%);
     background: #ffe2e2;
     width: fit-content;
-    font-size: var(--font-size-name);
+    font-size: var(--font-size-name, 18px);
 }
 
 .name-label-border {
-    font-family: var(--font-secondary);
+    font-family: var(--font-secondary, "Borel", cursive);
     --s: 10px;
     padding-inline: 2px;
     padding-top: 12px;
@@ -43,10 +39,10 @@ body {
 }
 
 .chat-text {
-    color: var(--text-color);
+    color: var(--text-color, #f07b7b);
     display: block;
     margin-left: 30px;
     margin-top: 5px;
-    font-family: var(--font-primary);
+    font-family: var(--font-primary, "Quicksand", sans-serif);
     font-weight: 500;
 }
